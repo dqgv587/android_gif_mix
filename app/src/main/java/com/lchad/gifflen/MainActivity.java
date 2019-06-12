@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     @Override
                     public void run() {
                         mGifflen.encode(MainActivity.this, mStorePath, 320, 320, uris);
+                        uris.clear();
                     }
                 }).start();
                 break;
