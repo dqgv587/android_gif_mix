@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                             Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_PERMISSIONS);
         }
+        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/gif_images/");
+        if (!file.exists()) file.mkdirs();
     }
 
     private void initView() {
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     @Override
     public void onClick(View v) {
+        long timecurrentTimeMillis = System.currentTimeMillis();
         switch (v.getId()) {
             case R.id.color_tip:
                 new AlertDialog.Builder(MainActivity.this)
@@ -172,8 +175,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                             }
                         })
                         .build();
-                mStorePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                        File.separator + "gifflen-" + mQuality + "-" + mColor + "-" + mDelayTime + "-sapmle.gif";
+                mStorePath = Environment.getExternalStorageDirectory().getPath()+"/gif_images/" +
+                        File.separator + "gifflen-" + timecurrentTimeMillis + "-" + mQuality + "-" + mColor + "-" + mDelayTime + "-sapmle.gif";
                 mGifImageView.setImageResource(R.drawable.web_hi_res_512);
                 mGifImageView.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.rotate));
                 new Thread(new Runnable() {
@@ -191,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), 2);
+                //Intent i = new Intent(Action.ACTION_MULTIPLE_PICK);
+                //startActivityForResult(i, 2);
                 break;
         }
     }
@@ -255,6 +260,13 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     uris.add(data.getClipData().getItemAt(i).getUri());
                 }
             }
+            //String[] all_path = data.getStringArrayExtra("all_path");
+         
+            //for (String string : all_path) {
+                
+            //    uris.add(Uri.fromFile(new File(string)));
+            //}
+            //viewSwitcher.setDisplayedChild(0);
         }
     }
 }
